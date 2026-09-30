@@ -8,6 +8,7 @@ use App\Classes\Hook;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class UnitFactory extends Factory
 {
@@ -15,8 +16,11 @@ class UnitFactory extends Factory
 
     public function definition()
     {
+        $name = $this->faker->name;
+
         return Hook::filter( 'ns-unit-factory', [
-            'name' => $this->faker->name,
+            'name' => $name,
+            'identifier' => Str::slug( $name ) . '-' . $this->faker->unique()->numberBetween( 1000, 9999 ),
             'description' => $this->faker->sentence,
             'base_unit' => $this->faker->randomElement( [ 0, 1 ] ),
             'value' => $this->faker->numberBetween( 5, 20 ),

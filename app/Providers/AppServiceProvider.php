@@ -48,6 +48,7 @@ use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -272,6 +273,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /**
+         * Fix MySQL key length issue with utf8mb4 charset.
+         * Required for older MySQL or MySQL 8 with default settings.
+         */
+        Schema::defaultStringLength( 191 );
+
         /**
          * let's create a default sqlite
          * database. This file is not tracked by Git.

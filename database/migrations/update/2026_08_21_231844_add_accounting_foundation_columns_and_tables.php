@@ -40,9 +40,9 @@ return new class extends Migration
 
         Schema::createIfMissing( 'nexopos_accounting_journals', function ( Blueprint $table ) {
             $table->id();
-            $table->string( 'source_type' );
-            $table->string( 'source_id' );
-            $table->string( 'event' );
+            $table->string( 'source_type', 80 );
+            $table->string( 'source_id', 80 );
+            $table->string( 'event', 80 );
             $table->unsignedBigInteger( 'rule_id' )->nullable();
             $table->string( 'name' );
             $table->enum( 'status', [ 'posted', 'reversed' ] )->default( 'posted' );

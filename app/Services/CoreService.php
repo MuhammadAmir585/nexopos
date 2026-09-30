@@ -480,16 +480,16 @@ class CoreService
      */
     public function getValidAuthor()
     {
-        $firstAdministrator = User::where( 'active', true )->
-            whereRelation( 'roles', 'namespace', Role::ADMIN )->first();
+        $firstAdministrator = User::where( 'active', true )
+            ->whereRelation( 'roles', 'namespace', Role::ADMIN )->first();
 
         if ( App::runningInConsole() ) {
-            return $firstAdministrator->id;
+            return $firstAdministrator?->id ?? 0;
         } else {
             if ( Auth::check() ) {
                 return Auth::id();
             } else {
-                return $firstAdministrator->id;
+                return $firstAdministrator?->id ?? 0;
             }
         }
     }

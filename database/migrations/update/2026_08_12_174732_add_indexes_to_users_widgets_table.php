@@ -12,10 +12,21 @@ return new class extends Migration
             return;
         }
 
-        Schema::table( 'nexopos_users_widgets', function ( Blueprint $table ): void {
-            $table->unique( [ 'user_id', 'identifier' ], 'users_widgets_user_identifier_unique' );
-            $table->index( [ 'user_id', 'position' ], 'users_widgets_user_position_index' );
-        } );
+        try {
+            Schema::table( 'nexopos_users_widgets', function ( Blueprint $table ): void {
+                $table->unique( [ 'user_id', 'identifier' ], 'users_widgets_user_identifier_unique' );
+            } );
+        } catch ( Exception $e ) {
+            // Index already exists, skip
+        }
+
+        try {
+            Schema::table( 'nexopos_users_widgets', function ( Blueprint $table ): void {
+                $table->index( [ 'user_id', 'position' ], 'users_widgets_user_position_index' );
+            } );
+        } catch ( Exception $e ) {
+            // Index already exists, skip
+        }
     }
 
     public function down(): void
